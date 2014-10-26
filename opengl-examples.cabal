@@ -1,0 +1,90 @@
+Name:                     opengl-examples
+Version:                  0.1.0.0
+Cabal-version:            >= 1.18
+Synopsis:                 TODO
+Description:              TODO
+Homepage:                 https://github.com/cmahon/opengl-examples
+Package-url:              TODO
+Bug-reports:              https://github.com/cmahon/opengl-examples/issues
+License:                  BSD3
+License-file:             LICENSE.txt
+Author:                   Chris Mahon
+Maintainer:               cnmahon@gmail.com
+Copyright:                2014 Chris Mahon <cnmahon@gmail.com>
+Category:                 TODO
+Build-type:               Simple
+Stability:                Experimental
+Tested-with:              GHC == 7.8.3
+Data-files:               cube.f.glsl
+                          cube.v.glsl
+Data-dir:                 assets
+
+Source-Repository         head
+  type:                   git
+  location:               https://github.com/cmahon/opengl-examples
+
+Library
+  hs-source-dirs:         library
+  ghc-options:            -Wall -O2 -threaded -rtsopts
+  ghc-prof-options:       -prof -auto-all
+  default-language:       Haskell2010
+  exposed-modules:        Util
+  build-depends:          base         <  5,
+                          GLFW-b       == 1.4.*,
+                          mtl          == 2.1.*,                          
+                          OpenGL       >= 2.8 && < 2.10,
+                          pretty       == 1.1.*,
+                          stm          == 2.4.*,
+                          transformers == 0.3.*
+
+Executable move
+  main-is:                Move.hs
+  hs-source-dirs:         executable
+  ghc-options:            -Wall -O2 -threaded -rtsopts
+  ghc-prof-options:       -prof -auto-all
+  default-language:       Haskell2010
+  build-depends:          base         < 5,
+                          opengl-examples,
+                          GLFW-b       == 1.4.*,
+                          lens,
+                          mtl          == 2.1.*,                          
+                          OpenGL       >= 2.8 && < 2.10,
+                          pretty       == 1.1.*,
+                          stm          == 2.4.*,
+                          transformers == 0.3.*
+  
+Executable triangle
+  main-is:                Triangle.hs
+  hs-source-dirs:         executable
+  ghc-options:            -Wall -O2 -threaded -rtsopts
+  ghc-prof-options:       -prof -auto-all
+  default-language:       Haskell2010
+  build-depends:          base         < 5,                          
+                          GLFW-b       == 1.4.*,
+                          OpenGLRaw    >= 1.5.0.0
+
+Executable matrices
+  main-is:                Matrices.hs
+  hs-source-dirs:         executable
+  ghc-options:            -Wall -O2 -threaded -rtsopts
+  ghc-prof-options:       -prof -auto-all
+  default-language:       Haskell2010
+  build-depends:          base         < 5,                          
+                          GLFW-b       == 1.4.*,
+                          OpenGLRaw    >= 1.5.0.0,
+                          Vec          >= 1.0.5
+
+Executable cube
+  main-is:                Cube.hs
+  hs-source-dirs:         executable
+  ghc-options:            -Wall -O2 -threaded -rtsopts
+  ghc-prof-options:       -prof -auto-all
+  default-language:       Haskell2010
+  build-depends:          base >= 4 && < 5,
+                          opengl-examples,
+                          GLFW-b == 1.*,
+                          OpenGL >= 2.8 && < 2.10,
+                          OpenGLRaw >= 1.5.0.0,
+                          GLUtil >= 0.7 && < 0.8,
+                          linear >= 1.3 && < 1.7
+
