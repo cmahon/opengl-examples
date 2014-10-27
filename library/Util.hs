@@ -114,6 +114,9 @@ isPress GLFW.KeyState'Pressed   = True
 isPress GLFW.KeyState'Repeating = True
 isPress _                       = False
 
+keyIsPressed :: GLFW.Window -> GLFW.Key -> IO Bool
+keyIsPressed win key = isPress `fmap` GLFW.getKey win key
+
 --------------------------------------------------------------------------------
 
 printInstructions :: IO ()
@@ -284,11 +287,4 @@ joysticks =
   , GLFW.Joystick'15
   , GLFW.Joystick'16
   ]
-
------------------------------------------------------------------------------
-
--- EH
-
-keyIsPressed :: GLFW.Window -> GLFW.Key -> IO Bool
-keyIsPressed win key = isPress `fmap` GLFW.getKey win key
 

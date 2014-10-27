@@ -147,29 +147,11 @@ processEvent ev = case ev of
 
   (EventMouseButton _ mb mbs mk) ->
       printEvent "mouse button" [show mb, show mbs, showModifierKeys mk]
-      -- when (mb == GLFW.MouseButton'1) $ do
-      --     let pressed = mbs == GLFW.MouseButtonState'Pressed
-      --     modify $ \s -> s
-      --       { stateMouseDown = pressed
-      --       }
-      --     unless pressed $
-      --       modify $ \s -> s
-      --         { stateDragging = False
-      --         }
 
   (EventCursorPos _ x y) -> do
       let x' = round x :: Int
           y' = round y :: Int
       printEvent "cursor pos" [show x', show y']
-      -- state <- get
-      -- when (stateMouseDown state && not (stateDragging state)) $
-      --   put $ state
-      --     { stateDragging        = True
-      --     , stateDragStartX      = x
-      --     , stateDragStartY      = y
-      --     , stateDragStartXAngle = stateXAngle state
-      --     , stateDragStartYAngle = stateYAngle state
-      --     }
 
   (EventCursorEnter _ cs) ->
       printEvent "cursor enter" [show cs]
@@ -178,24 +160,15 @@ processEvent ev = case ev of
       let x' = round x :: Int
           y' = round y :: Int
       printEvent "scroll" [show x', show y']
-      -- env <- ask
-      -- modify $ \s -> s
-      --   { stateZDist =
-      --       let zDist' = stateZDist s + realToFrac (negate $ y / 2)
-      --       in curb (envZDistClosest env) (envZDistFarthest env) zDist'
-      --   }
       adjustWindow
 
   (EventKey win k scancode ks mk) -> do
       printEvent "key" [show k, show scancode, show ks, showModifierKeys mk]
       when (ks == GLFW.KeyState'Pressed) $ do
-          -- Q, Esc: exit
           when (k == GLFW.Key'Q || k == GLFW.Key'Escape) $
             liftIO $ GLFW.setWindowShouldClose win True
-          -- ?: print instructions
           when (k == GLFW.Key'Slash && GLFW.modifierKeysShift mk) $
             liftIO printInstructions
-          -- i: print GLFW information
           when (k == GLFW.Key'I) $
             liftIO $ printInformation win
 
@@ -233,26 +206,14 @@ main = do
     GLFW.setKeyCallback             win $ Just $ keyCallback             eventsChan
     GLFW.setCharCallback            win $ Just $ charCallback            eventsChan
 
-    -- GLFW.swapInterval 1
-
-    -- GL.position (GL.Light 0) GL.$= GL.Vertex4 5 5 10 0
-    -- GL.light    (GL.Light 0) GL.$= GL.Enabled
-    -- GL.lighting   GL.$= GL.Enabled
-    -- GL.cullFace   GL.$= Just GL.Back
-    -- GL.depthFunc  GL.$= Just GL.Less
-    -- GL.clearColor GL.$= GL.Color4 0.05 0.05 0.05 1
     GL.lineSmooth GL.$= GL.Enabled
     GL.blend      GL.$= GL.Enabled
     GL.blendFunc  GL.$= (GL.SrcAlpha,GL.OneMinusSrcAlpha)
     GL.lineWidth  GL.$= 2.0
     GL.clearColor GL.$= GL.Color4 1 1 1 1
-    -- GL.normalize  GL.$= GL.Enabled
-
-    -- from EH
     GL.viewport GL.$= (GL.Position 0 0, GL.Size (fromIntegral width) (fromIntegral height))
     GL.ortho 0 (fromIntegral width) 0 (fromIntegral height) (-1) 1
 
-    -- from Demo
     (fbWidth, fbHeight) <- GLFW.getFramebufferSize win
 
     let 
@@ -271,3 +232,15 @@ main = do
     runDemo env state
 
     putStrLn "Done"
+
+-----------------------------------------------------------------------------
+-- Experiments
+
+-- GLFW.swapInterval 1
+-- GL.position (GL.Light 0) GL.$= GL.Vertex4 5 5 10 0
+-- GL.light    (GL.Light 0) GL.$= GL.Enabled
+-- GL.lighting   GL.$= GL.Enabled
+-- GL.cullFace   GL.$= Just GL.Back
+-- GL.depthFunc  GL.$= Just GL.Less
+-- GL.clearColor GL.$= GL.Color4 0.05 0.05 0.05 1
+-- GL.normalize  GL.$= GL.Enabled
